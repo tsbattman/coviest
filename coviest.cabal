@@ -21,7 +21,8 @@ library
       Statistics.Covariance.Shrinkage.MMSE
     , Statistics.Covariance.Shrinkage.Strimmer
   -- other-modules:
-  -- other-extensions:
+  other-extensions:
+      ViewPatterns
   build-depends:
       base >=4.11 && <5.0
     , hmatrix >= 0.18
