@@ -5,6 +5,7 @@ module Statistics.Covariance.Shrinkage.MMSE (
   , shrinkCov
   , sampleCov
   , naiveCov
+  , pinCoef
   , lwShrinkageCoef
   , rblwShrinkCovCoef
   , rblwShrinkageCoef
@@ -18,7 +19,7 @@ import Statistics.Sample (mean)
 import qualified Data.Vector.Unboxed as VU
 
 mmseCov :: (Matrix Double -> Double) -> Matrix Double -> Herm Double
-mmseCov shrink x = shrinkCov s (min 1 p) f
+mmseCov shrink x = shrinkCov s p f
   where
     s = sampleCov x
     f = naiveCov x
@@ -38,6 +39,9 @@ avgVarCov (unSym -> s) = trustSym $ scale s' (ident p)
 
 naiveCov :: Matrix Double -> Herm Double
 naiveCov = avgVarCov . sampleCov
+
+pinCoef :: Double -> Double
+pinCoef = max 0 . min 1
 
 lwShrinkageCoef :: Matrix Double -> Double
 lwShrinkageCoef x = numer / denom
